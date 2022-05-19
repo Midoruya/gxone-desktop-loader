@@ -1,22 +1,23 @@
 "use strict";
 
-import { app, protocol, BrowserWindow, ipcMain, dialog } from "electron";
+import { app, protocol, BrowserWindow } from "electron";
 import path from "path";
 import { createProtocol } from "vue-cli-plugin-electron-builder/lib";
 import installExtension, { VUEJS3_DEVTOOLS } from "electron-devtools-installer";
 const isDevelopment = process.env.NODE_ENV !== "production";
-
+const init_event = require("./backend/index.js");
 protocol.registerSchemesAsPrivileged([
   { scheme: "app", privileges: { secure: true, standard: true } },
 ]);
 
 async function createWindow() {
-  // Create the browser window.
   const win = new BrowserWindow({
+    resizable: false,
+    maximizable: false,
     frame: false,
-    width: 820,
+    width: 950,
     transparent: true,
-    height: 545,
+    height: 650,
     webPreferences: {
       preload: path.join(__dirname, "./preload.js"),
       nodeIntegration: true,
@@ -24,9 +25,6 @@ async function createWindow() {
     },
   });
 
-  //win.setBackgroundColor("#00FFFFFF");
-  win.setResizable(false);
-  win.setMaximizable(false);
   win.setMenu(null);
   win.setMenuBarVisibility(false);
 
@@ -39,10 +37,7 @@ async function createWindow() {
   }
 }
 
-ipcMain.on("close-programm", () => app.quit());
-ipcMain.on("minimize-focus-windows", () =>
-  BrowserWindow.getFocusedWindow().minimize()
-);
+init_event();
 
 app.on("window-all-closed", () => {
   if (process.platform !== "darwin") {
