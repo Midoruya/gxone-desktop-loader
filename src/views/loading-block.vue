@@ -18,7 +18,7 @@
 </template>
 
 <script>
-import axios from "axios";
+import { mapActions, mapGetters } from "vuex";
 export default {
   name: "loading-block",
   data() {
@@ -36,24 +36,14 @@ export default {
     window.require("electron").ipcRenderer.on("redirect-to-auth", () => {
       this.loading_status = "find you account";
       setTimeout(() => {
-        axios.defaults.withCredentials = true;
-        axios({
-          method: "POST",
-          url: "http://gxone.ru:5000/Account",
-        })
-          .then((response) => {
-            if (response.data["Role"] !== undefined)
-              this.$router.push("/loader");
-            else this.$router.push({ path: "/authorization" });
-          })
-          .catch((error) => {
-            console.log("<========== Axios ==========>");
-            console.error(error);
-          });
+        this.UPDATE_ACCOUNT_INFO();
+        if (this.IS_VALID_ACCOUNT === true) this.$router.push("/loader");
+        else this.$router.push({ path: "/authorization" });
       }, 1500);
     });
   },
-  methods: {},
+  methods: { ...mapActions(["UPDATE_ACCOUNT_INFO"]) },
+  computed: { ...mapGetters(["IS_VALID_ACCOUNT"]) },
 };
 </script>
 
@@ -77,11 +67,11 @@ export default {
     align-items: center;
 
     h1 {
-      margin: 215px 0 0 0;
+      margin: 265px 0 0 0;
       font-family: Montserrat, sans-serif;
       font-style: normal;
       font-weight: 600;
-      font-size: 14px;
+      font-size: 15px;
       line-height: 17px;
       text-align: center;
       color: #efefef;
@@ -99,7 +89,7 @@ export default {
     }
 
     &-spinner {
-      margin: 120px 0 0 0;
+      margin: 135px 0 0 0;
       animation: rotate 2s linear infinite;
       z-index: 2;
       position: absolute;

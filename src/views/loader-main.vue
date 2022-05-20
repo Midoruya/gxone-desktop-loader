@@ -1,7 +1,11 @@
 <template>
   <div class="main-loader">
     <div class="main-loader-game-selector">
-      <div class="main-loader-game-selector-game-button">
+      <div
+        v-for="element in 10"
+        :key="element"
+        class="main-loader-game-selector-game-button"
+      >
         <img
           src="https://media.discordapp.net/attachments/801514450535972865/975307344382689321/unknown.png"
           alt=""
@@ -163,10 +167,16 @@
             <h1>Описание софта на Apex Legends</h1>
           </div>
           <a>
-            Phantom для Apex Legends - это чит, который не внедряется в<br />
+            <span style="color: rgba(243, 192, 59, 0.9)"
+              >Phantom для Apex Legends</span
+            >
+            - это чит, который не внедряется в<br />
             игру и не вносит изменения в её память.<br /><br />
             Благодоря чему, можно ответственно заявить о надежности<br />
-            использования в долгосрочной перспективе.
+            использования в
+            <span style="color: rgba(243, 192, 59, 0.9)"
+              >долгосрочной перспективе</span
+            >.
           </a>
           <div
             style="margin: 24px 0 10px 0"
@@ -228,36 +238,19 @@
 </template>
 
 <script>
-import axios from "axios";
+import { mapActions, mapGetters } from "vuex";
 export default {
   components: {},
-  data() {
-    return {
-      id: 1,
-      username: "test",
-      mail: "",
-      role: "",
-    };
+  computed: {
+    ...mapGetters(["IS_VALID_ACCOUNT"]),
   },
   mounted() {
-    axios.defaults.withCredentials = true;
-    axios({
-      method: "POST",
-      url: "http://gxone.ru:5000/Account",
-    })
-      .then((response) => {
-        console.log(response.data);
-        this.id = response.data["uid"];
-        this.username = response.data["username"];
-        this.mail = response.data["mail"];
-        this.role = response.data["Role"];
-      })
-      .catch((error) => {
-        console.log("<========== Axios ==========>");
-        console.error(error);
-      });
+    this.UPDATE_ACCOUNT_INFO();
+    if (this.IS_VALID_ACCOUNT !== true)
+      window.require("electron").ipcRenderer.send("close-programm");
   },
   methods: {
+    ...mapActions(["UPDATE_ACCOUNT_INFO"]),
     open_social_url(address) {
       window
         .require("electron")
@@ -397,7 +390,7 @@ export default {
           margin: 0 0 9px 0;
           align-items: center;
           justify-content: space-between;
-          width: 500px;
+          width: 600px;
           &-button {
             display: flex;
             margin: 0 0 0 12px;
@@ -493,7 +486,7 @@ export default {
     }
 
     &-gallary {
-      margin: 5px 0 0 20px;
+      margin: 15px 0 0 20px;
       display: flex;
       width: 100px;
       img {

@@ -4,9 +4,17 @@
 </template>
 
 <script>
+import { mapActions, mapGetters } from "vuex";
 import ApplicationFrame from "./components/application-frame.vue";
 export default {
   components: { ApplicationFrame },
+  mounted() {
+    this.UPDATE_ACCOUNT_INFO();
+  },
+  computed: { ...mapGetters([]) },
+  methods: {
+    ...mapActions(["UPDATE_ACCOUNT_INFO"]),
+  },
 };
 </script>
 

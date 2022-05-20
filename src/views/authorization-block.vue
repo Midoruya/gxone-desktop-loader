@@ -94,6 +94,7 @@ import CustomInput from "../components/custom-input.vue";
 import CustomButtonFirst from "../components/custom-button-first.vue";
 import CustomCheckbox from "../components/custom-checkbox.vue";
 import axios from "axios";
+import { mapActions, mapGetters } from "vuex";
 export default {
   name: "authorization-block",
   components: { CustomInput, CustomButtonFirst, CustomCheckbox },
@@ -105,20 +106,14 @@ export default {
     };
   },
   mounted() {
-    axios.defaults.withCredentials = true;
-    axios({
-      method: "POST",
-      url: "http://gxone.ru:5000/Account",
-    })
-      .then((response) => {
-        if (response.data["Role"] !== undefined) this.$router.push("/loader");
-      })
-      .catch((error) => {
-        console.log("<========== Axios ==========>");
-        console.error(error);
-      });
+    this.UPDATE_ACCOUNT_INFO();
+    if (this.IS_VALID_ACCOUNT === true) this.$router.push("/loader");
+  },
+  computed: {
+    ...mapGetters(["IS_VALID_ACCOUNT"]),
   },
   methods: {
+    ...mapActions(["UPDATE_ACCOUNT_INFO"]),
     sing_in_from_account() {
       axios.defaults.withCredentials = true;
       let bodyFormData = new FormData();

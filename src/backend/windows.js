@@ -17,7 +17,7 @@ module.exports = () => {
           if (error) app.quit();
         });
         resolve();
-      }, 8000);
+      }, 500);
     }).then(() => {
       event.sender.send(
         "loading-block-sender",
