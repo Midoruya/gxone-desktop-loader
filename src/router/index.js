@@ -1,26 +1,31 @@
-import { createRouter, createWebHashHistory } from "vue-router";
+import { createRouter, createWebHashHistory } from 'vue-router';
 
 const routes = [
-  {
-    path: "/authorization",
-    name: "authorization",
-    component: () => import("../views/authorization-block.vue"),
-  },
-  {
-    path: "/",
-    name: "",
-    component: () => import("../views/loading-block.vue"),
-  },
-  {
-    path: "/loader",
-    name: "loader",
-    component: () => import("../views/loader-main.vue"),
-  },
+	{
+		path: '/authorization',
+		name: 'authorization',
+		component: () => import('../views/authorization-block.vue'),
+	},
+	{
+		path: '/',
+		name: '',
+		component: () => import('../views/loading-block.vue'),
+	},
+	{
+		path: '/loader',
+		name: 'loader',
+		component: () => import('../views/loader-main.vue'),
+	},
+	{
+		path: '/agreement',
+		name: 'agreement',
+		component: () => import('../views/user-agreement.vue'),
+	},
 ];
 
 const router = createRouter({
-  history: createWebHashHistory(),
-  routes,
+	history: createWebHashHistory(),
+	routes,
 });
 
 export default router;
