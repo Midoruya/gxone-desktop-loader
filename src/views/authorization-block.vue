@@ -71,7 +71,6 @@ export default {
 				},
 			})
 				.then((request) => {
-					console.log(request.data);
 					if (request.data == 'Success') this.$router.push('/agreement');
 				})
 				.catch((error) => {
@@ -81,7 +80,6 @@ export default {
 				});
 		},
 		save_credits(value) {
-			console.log(value);
 			this.save_profile = value;
 		},
 		not_have_account: () => window.require('electron').ipcRenderer.send('open-external-browser', 'gxone.ru'),

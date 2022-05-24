@@ -106,7 +106,7 @@ import axios from 'axios';
 export default {
 	components: { SelectGameButton },
 	computed: {
-		...mapGetters(['IS_VALID_ACCOUNT']),
+		...mapGetters(['GET_ACCOUNT_INFO', 'IS_VALID_ACCOUNT']),
 		get_data_for_selected_product() {
 			return this.product[this.selected_product];
 		},
@@ -126,6 +126,7 @@ export default {
 			});
 	},
 	mounted() {
+		if (this.GET_ACCOUNT_INFO.agreement_accepted !== true) this.$router.push('/agreement');
 		if (this.IS_VALID_ACCOUNT !== true) window.require('electron').ipcRenderer.send('close-programm');
 	},
 	methods: {

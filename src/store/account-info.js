@@ -44,6 +44,7 @@ export default {
 			uid: 0,
 			mail: 'test@mail.ru',
 			username: 'test user',
+			agreement_accepted: false,
 		},
 	},
 	getters: {

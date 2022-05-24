@@ -98,11 +98,32 @@
 
 <script>
 import customButtonFirst from '@/components/custom-button-first.vue';
+import axios from 'axios';
+import { mapActions, mapGetters } from 'vuex';
 export default {
 	components: { customButtonFirst },
+	created() {
+		this.UPDATE_ACCOUNT_INFO();
+		if (this.GET_ACCOUNT_INFO.agreement_accepted) this.$router.push('/loader');
+	},
+	computed: {
+		...mapGetters(['GET_ACCOUNT_INFO']),
+	},
 	methods: {
+		...mapActions(['UPDATE_ACCOUNT_INFO']),
 		accept() {
-			this.$router.push('/loader');
+			axios.defaults.withCredentials = true;
+			axios({
+				method: 'GET',
+				url: 'http://gxone.ru:5000/Account/AcceptAgreement',
+			})
+				.then(() => {
+					this.$router.push('/loader');
+				})
+				.catch((error) => {
+					console.log('<========== Axios ==========>');
+					console.error(error);
+				});
 		},
 		fuck() {
 			window.require('electron').ipcRenderer.send('close-programm');

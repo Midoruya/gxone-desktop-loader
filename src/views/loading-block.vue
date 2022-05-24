@@ -28,13 +28,13 @@ export default {
 			this.loading_status = 'find you account';
 			setTimeout(() => {
 				this.UPDATE_ACCOUNT_INFO();
-				if (this.IS_VALID_ACCOUNT === true) this.$router.push('/agreement');
+				if (this.IS_VALID_ACCOUNT === true) this.$router.push('/loader');
 				else this.$router.push({ path: '/authorization' });
 			}, 1500);
 		});
 	},
 	methods: { ...mapActions(['UPDATE_ACCOUNT_INFO']) },
-	computed: { ...mapGetters(['IS_VALID_ACCOUNT']) },
+	computed: { ...mapGetters(['GET_ACCOUNT_INFO', 'IS_VALID_ACCOUNT']) },
 };
 </script>
 
